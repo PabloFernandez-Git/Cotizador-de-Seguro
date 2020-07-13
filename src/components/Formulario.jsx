@@ -41,13 +41,25 @@ const Boton = styled.button`
     }
 `
 
+const Error = styled.div`
+    background-color: red;
+    color: white;
+    padding: 1rem;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 2rem;
+`
+
 const Formulario = () => {
 
+    // State
     const [datos, guardarDatos] = useState({
         marca: '',
         year: '',
         plan: ''
     });
+
+    const [error, guardarError] = useState(false);
 
     // Extraer los valores del state
     const {marca, year, plan} = datos;
@@ -60,8 +72,40 @@ const Formulario = () => {
         })
     }
 
+    // Submit
+    const cotizarSeguro = e => {
+        e.preventDefault();
+
+        if(marca.trim() === '' || year.trim() === '' || plan.trim() === '') {
+            guardarError(true);
+            return;
+        }
+
+        guardarError(false);
+
+        // Obtener la diferencia de años
+
+        // Por cada año hay que restar 3%
+
+        // Americano 15%
+        // Asiatico 5%
+        // Europeo 30%
+
+        // Basico aumenta 20%
+        // Completo 50%
+
+        // Total
+        
+    }
+
+
     return ( 
-        <form>
+        <form
+            onSubmit={cotizarSeguro}
+        >
+
+            {error ? <Error>Todos los campos son obligatorios</Error> : null}
+
             <Campo>
                 <Label>Marca</Label>
                 <Select
@@ -116,7 +160,7 @@ const Formulario = () => {
                 /> Completo
             </Campo>
 
-            <Boton type="button">Cotizar</Boton>
+            <Boton type="submit">Cotizar</Boton>
         </form>
     );
 }
